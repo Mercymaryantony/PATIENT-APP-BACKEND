@@ -4,9 +4,13 @@ const cors =require("cors")
 const app=express()
 app.use(cors())
 app.use(express.json())
+const {patientmodel}=require("./model/patient")
+mongoose.connect("mongodb+srv://mercy1112:mercy1112@cluster0.8x8j3ya.mongodb.net/patientDB?retryWrites=true&w=majority&appName=Cluster0")
 
 app.post("/view",(req,res)=>{
-    res.send("VIEW")
+    patientmodel.find().then((data)=>{
+        res.json(data)
+    }).catch((error)=>res.send("error"))
 })
 
 app.post("/add",(req,res)=>{
@@ -17,6 +21,6 @@ app.post("/add",(req,res)=>{
     res.json({"status":"added"})
 })
 
-app.listen(8000,()=>{
+app.listen(8081,()=>{
     console.log("server started")
 })
