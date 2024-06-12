@@ -20,6 +20,26 @@ app.post("/add",(req,res)=>{
     patient.save()
     res.json({"status":"added"})
 })
+app.post("/delete",(req,res)=>{
+    let input = req.body
+    patientmodel.findByIdAndDelete(input._id).then(
+        (response)=>{
+            res.json({"status":"deleted"})
+        }
+    ).catch((error)=>{
+        res.json({"status":"error"})
+    })
+
+})
+
+app.post("/search",(req,res)=>{
+    let input = req.body
+    patientmodel.find(input).then((data)=>{
+        res.json(data)
+    }).catch((error)=>{
+        res.send("error")
+    })
+})
 
 app.listen(8081,()=>{
     console.log("server started")
